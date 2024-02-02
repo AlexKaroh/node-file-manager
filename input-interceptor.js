@@ -1,4 +1,5 @@
 import { stdout, stdin } from "process";
+import { resolve } from "path";
 
 export class InputInterceptor {
   constructor(fileManager) {
@@ -12,7 +13,9 @@ export class InputInterceptor {
   }
 
   setInputListener() {
-    stdin.on("data", (data) => this.dataHandler(data.toString("utf8").trim()));
+    stdin.on("data", (data) => {
+      this.dataHandler(data.toString("utf8").trim());
+    });
   }
 
   dataHandler(data) {
@@ -21,6 +24,7 @@ export class InputInterceptor {
         this.exitProccess();
       }
       case "up": {
+        this.upDir();
         stdin.resume();
         break;
       }
@@ -33,6 +37,16 @@ export class InputInterceptor {
     }
   }
 
+  upDir() {
+    const parentDir = resolve(this.fileManager.currentPath, "..");
+
+    parentDir !== this.fileManager.currentPath
+      ? (this.fileManager.currentPath = parentDir)
+      : console.log("Operation failed! Already in root folder");
+
+    console.log(this.fileManager.currentUrlMessage);
+  }
+
   exitProccess() {
     stdout.write(this.fileManager.exitMessage);
     process.exit();
@@ -40,7 +54,7 @@ export class InputInterceptor {
 
   initInterceptor() {
     console.log(this.fileManager.welcomeMessage);
-    console.log(this.fileManager.currentDir);
+    console.log(this.fileManager.currentUrlMessage);
 
     this.setExitListener();
     this.setInputListener();

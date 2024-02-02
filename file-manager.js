@@ -3,13 +3,30 @@ import { join, dirname } from "path";
 
 export class FileManager {
   constructor(triggerUrl, userName) {
-    this.currDir = this.setCurrentPath(triggerUrl);
+    this.currentPath$ = this.setCurrentPath(triggerUrl);
     this.userName = userName;
   }
+
+  /**
+   * @param {string} sourcePatch The path to set as the current path.
+   * @param {string} dirName Subdirectory name, if necessary.
+   * @returns {string} Returns the set current path.
+   */
 
   setCurrentPath(sourcePatch, dirName = "") {
     const baseDir = dirname(fileURLToPath(sourcePatch));
     return dirName ? join(baseDir, dirName) : baseDir;
+  }
+
+  /**
+   * @param {string} path
+   */
+  set currentPath(path) {
+    this.currentPath$ = path;
+  }
+
+  get currentPath() {
+    return this.currentPath$;
   }
 
   get welcomeMessage() {
@@ -20,7 +37,7 @@ export class FileManager {
     return `Thank you for using File Manager, ${this.userName}, goodbye!`;
   }
 
-  get currentDir() {
-    return `You are currently in ${this.currDir}`;
+  get currentUrlMessage() {
+    return `You are currently in ${this.currentPath$}`;
   }
 }
