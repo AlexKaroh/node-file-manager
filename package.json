@@ -1,0 +1,10 @@
+{
+  "name": "node-file-manager",
+  "description": "RSS project NodeJs File Manager",
+  "author": "Alex Karoh",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  }
+}
