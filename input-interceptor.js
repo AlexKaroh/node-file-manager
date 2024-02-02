@@ -23,6 +23,7 @@ export class InputInterceptor {
       case ".exit": {
         this.exitProccess();
       }
+
       case "up": {
         this.upDir();
         stdin.resume();
