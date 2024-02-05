@@ -2,6 +2,7 @@ import { TABLE_FOOTER, TABLE_HEADER_SKELET } from "./constants.js";
 import { stdout, stdin } from "process";
 import { resolve } from "path";
 import fs from "fs";
+import os from "os";
 import path from "path";
 
 export class InputInterceptor {
@@ -85,12 +86,101 @@ export class InputInterceptor {
         break;
       }
 
+      case "os": {
+        if (data.length > 2) {
+          console.log(
+            `Operation failed! Unknown ${data[2]} os command argunemt`
+          );
+          console.log(this.fileManager.currentUrlMessage);
+          stdin.resume();
+          break;
+        }
+        switch (data[1]) {
+          case "--EOL": {
+            this.getEOL();
+            stdin.resume();
+            break;
+          }
+          case "--cpus": {
+            this.getCPUsInfo();
+            stdin.resume();
+            break;
+          }
+          case "--homedir": {
+            this.getHomeDirectory();
+            stdin.resume();
+            break;
+          }
+          case "--username": {
+            this.getUsername();
+            stdin.resume();
+            break;
+          }
+          case "--architecture": {
+            this.getArchitecture();
+            stdin.resume();
+            break;
+          }
+          default: {
+            console.log(`Operation failed! Unknown ${data[1]} os argunemt`);
+            console.log(this.fileManager.currentUrlMessage);
+            stdin.resume();
+            break;
+          }
+        }
+        stdin.resume();
+        break;
+      }
+
       default: {
         console.log("Operation failed");
+        console.log(this.fileManager.currentUrlMessage);
         stdin.resume();
         break;
       }
     }
+  }
+
+  getArchitecture() {
+    console.log(
+      `CPU architecture for which Node.js binary has compiled: ${os.arch()}`
+    );
+    console.log(this.fileManager.currentUrlMessage);
+  }
+
+  getUsername() {
+    console.log(`Current system user name: ${os.userInfo().username}`);
+    console.log(this.fileManager.currentUrlMessage);
+  }
+
+  getHomeDirectory() {
+    console.log(`Home directory: ${os.homedir()}`);
+    console.log(this.fileManager.currentUrlMessage);
+  }
+
+  getCPUsInfo() {
+    const cpus = os.cpus();
+
+    if (!cpus.length) {
+      console.log(`Overall amount of CPUS: 0`);
+      console.log(this.fileManager.currentUrlMessage);
+      return;
+    }
+
+    console.log(`Overall amount of CPUS: ${cpus.length}`);
+    cpus.forEach((cpu, index) => {
+      console.log(`CPU ${index + 1}:`);
+      console.log(`  Model: ${cpu.model}`);
+      console.log(`  Clock rate: ${cpu.speed / 1000} GHz`);
+    });
+    console.log(this.fileManager.currentUrlMessage);
+  }
+
+  getEOL() {
+    console.log(
+      `End-Of-Line (EOL) for the current system: '${JSON.stringify(os.EOL)}'`
+    );
+    console.log(this.fileManager.currentUrlMessage);
   }
 
   deleteFile(filePath, isTracked = false) {
