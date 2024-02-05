@@ -1,0 +1,19 @@
+import { FileManager } from "./app/file-manager.js";
+import { InputInterceptor } from "./app/input-interceptor.js";
+
+const NAME_PROP = "--username=";
+
+const initFileManagerCore = async () => {
+  const userName =
+    process.argv
+      .slice(2)
+      .find((arg) => arg.startsWith(NAME_PROP))
+      .replace(NAME_PROP, "") || "Anonymous";
+
+  const fileManager = new FileManager(import.meta.url, userName);
+  const interceptor = new InputInterceptor(fileManager);
+
+  interceptor.initInterceptor();
+};
+
+initFileManagerCore();
