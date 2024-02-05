@@ -1,5 +1,5 @@
-import { FileManager } from "./file-manager.js";
-import { InputInterceptor } from "./input-interceptor.js";
+import { FileManager } from "./app/file-manager.js";
+import { InputInterceptor } from "./app/input-interceptor.js";
 
 const NAME_PROP = "--username=";
 
