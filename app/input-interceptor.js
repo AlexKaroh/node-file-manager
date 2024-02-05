@@ -2,6 +2,7 @@ import { NAVIGATION_COMMANDS, BASIC_COMMANDS } from "../constants/constants.js";
 import { NavigationCommandsHandler } from "../handlers/navigation-handler-module.js";
 import { BasicCommandsHandler } from "../handlers/basic-handler-module.js";
 import { OSCommandsHandler } from "../handlers/os-handler-module.js";
+import { HashCommandsHandler } from "../handlers/hash-handler-module.js";
 import { stdin, stdout } from "process";
 
 export class InputInterceptor {
@@ -45,6 +46,12 @@ export class InputInterceptor {
     if (data[0] === "os") {
       const OSHandler = new OSCommandsHandler(this.fileManager, data);
       OSHandler.handleCommand();
+      return;
+    }
+
+    if (data[0] === "hash") {
+      const hashHandler = new HashCommandsHandler(this.fileManager, data);
+      hashHandler.handleCommand();
       return;
     }
 
