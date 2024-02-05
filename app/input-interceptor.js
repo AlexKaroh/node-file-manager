@@ -1,8 +1,13 @@
-import { NAVIGATION_COMMANDS, BASIC_COMMANDS } from "../constants/constants.js";
+import {
+  NAVIGATION_COMMANDS,
+  BASIC_COMMANDS,
+  COMPRESS_COMMANDS,
+} from "../constants/constants.js";
 import { NavigationCommandsHandler } from "../handlers/navigation-handler-module.js";
 import { BasicCommandsHandler } from "../handlers/basic-handler-module.js";
 import { OSCommandsHandler } from "../handlers/os-handler-module.js";
 import { HashCommandsHandler } from "../handlers/hash-handler-module.js";
+import { CompressCommandsHandler } from "../handlers/compress-handler-module.js";
 import { stdin, stdout } from "process";
 
 export class InputInterceptor {
@@ -20,6 +25,7 @@ export class InputInterceptor {
   setInputListener() {
     stdin.on("data", (data) => {
       const dataToString = data.toString("utf8").trim().split(" ");
+      console.log(" ");
       this.dataHandler(dataToString);
     });
   }
@@ -43,6 +49,15 @@ export class InputInterceptor {
       return;
     }
 
+    if (COMPRESS_COMMANDS.includes(data[0])) {
+      const compressHandler = new CompressCommandsHandler(
+        this.fileManager,
+        data
+      );
+      compressHandler.handleCommand();
+      return;
+    }
+
     if (data[0] === "os") {
       const OSHandler = new OSCommandsHandler(this.fileManager, data);
       OSHandler.handleCommand();
@@ -55,7 +70,7 @@ export class InputInterceptor {
       return;
     }
 
-    console.log("Operation failed! Unknown command");
+    console.log("Invalid input! Unknown command");
     console.log(this.fileManager.currentUrlMessage);
     stdin.resume();
   }

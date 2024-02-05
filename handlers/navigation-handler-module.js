@@ -11,7 +11,7 @@ export class NavigationCommandsHandler {
 
   handleCommand() {
     if (this.data.length >= 2 && this.data[0] !== "cd") {
-      console.log(`Operation failed! Unknown ${this.data[1]} argument`);
+      console.log(`Invalid input! Unknown ${this.data[1]} argument`);
       console.log(this.fileManager.currentUrlMessage);
       stdin.resume();
       return;
@@ -84,7 +84,7 @@ export class NavigationCommandsHandler {
     if (fs.existsSync(newDir) && fs.statSync(newDir).isDirectory()) {
       this.fileManager.currentPath = newDir;
     } else {
-      console.log(`Operation failed! Directory '${targetDir}' not found.`);
+      console.log(`Invalid input! Directory '${targetDir}' not found.`);
     }
 
     console.log(this.fileManager.currentUrlMessage);

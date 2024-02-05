@@ -10,7 +10,7 @@ export class HashCommandsHandler {
 
   handleCommand() {
     if (this.data.length > 2) {
-      console.log(`Operation failed! Unknown ${this.data[2]} argument`);
+      console.log(`Invalid input! Unknown ${this.data[2]} argument`);
       console.log(this.fileManager.currentUrlMessage);
       stdin.resume();
       return;
@@ -18,6 +18,8 @@ export class HashCommandsHandler {
     switch (this.data[0]) {
       case "hash": {
         this.calculateFileHash(this.data[1]);
+        stdin.resume();
+        return;
       }
     }
   }

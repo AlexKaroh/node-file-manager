@@ -57,7 +57,7 @@ export class BasicCommandsHandler {
 
   deleteFile(filePath, isTracked = false) {
     if (!filePath) {
-      console.error(`Operation failed! File path can't be empty`);
+      console.error(`Invalid input! File path can't be empty`);
       console.log(this.fileManager.currentUrlMessage);
       return;
     }
@@ -74,7 +74,7 @@ export class BasicCommandsHandler {
 
   moveFile(sourceFilePath, targetDirectory) {
     if (!sourceFilePath || !targetDirectory) {
-      console.log("Operation failed! Some of args is empty");
+      console.log("Invalid input! Some of args is empty");
       console.log(this.fileManager.currentUrlMessage);
       return;
     }
@@ -109,7 +109,7 @@ export class BasicCommandsHandler {
 
   copyFile(sourceFilePath, targetDirectory) {
     if (!sourceFilePath || !targetDirectory) {
-      console.log("Operation failed! Some of args is empty");
+      console.log("Invalid input! Some of args is empty");
       console.log(this.fileManager.currentUrlMessage);
       return;
     }
@@ -144,7 +144,7 @@ export class BasicCommandsHandler {
 
   renameFile(oldFilePath, newFileName) {
     if (!oldFilePath || !newFileName) {
-      console.log("Operation failed! Some of args is empty");
+      console.log("Invalid input! Some of args is empty");
       console.log(this.fileManager.currentUrlMessage);
       return;
     }
@@ -175,14 +175,14 @@ export class BasicCommandsHandler {
         }
       });
     } else {
-      console.error("Operation failed! File name can`t be empty");
+      console.error("Invalid input! File name can`t be empty");
       console.log(this.fileManager.currentUrlMessage);
     }
   }
 
   readFileContent(targetDir) {
     if (!targetDir) {
-      console.log("Operation failed! File path can`t be empty");
+      console.log("Invalid input! File path can`t be empty");
       console.log(this.fileManager.currentUrlMessage);
       return;
     }

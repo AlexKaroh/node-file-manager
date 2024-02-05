@@ -9,9 +9,7 @@ export class OSCommandsHandler {
 
   handleCommand() {
     if (this.data.length > 2) {
-      console.log(
-        `Operation failed! Unknown ${this.data[2]} os command argunemt`
-      );
+      console.log(`Invalid input! Unknown ${this.data[2]} os command argunemt`);
       console.log(this.fileManager.currentUrlMessage);
       stdin.resume();
       return;
@@ -43,7 +41,7 @@ export class OSCommandsHandler {
         break;
       }
       default: {
-        console.log(`Operation failed! Unknown ${this.data[1]} os argunemt`);
+        console.log(`Invalid input! Unknown ${this.data[1]} os argunemt`);
         console.log(this.fileManager.currentUrlMessage);
         stdin.resume();
         break;
